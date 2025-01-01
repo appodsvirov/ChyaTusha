@@ -58,26 +58,38 @@ namespace ChyaTusha
         async Task HandleStage1(ITelegramBotClient botClient, long chatId, string messageText)
         {
             _userStates[chatId] = "stage2";
-            await _sender.TrySendPhoto(chatId, "forkInTheRoad.png", 
+            var replyMarkup = new ReplyKeyboardMarkup(
+                new[]
+                {
+                    new KeyboardButton("Выбрать тропу \"Космос\""),
+                    new KeyboardButton("Выбрать тропу \"Убийца\""),
+                    new KeyboardButton("Выбрать тропу \"Водопад\""),
+                })
+            {
+                ResizeKeyboard = true
+            };
+            await _sender.TrySendPhoto(chatId,
+                "forkInTheRoad.png",
+                replyMarkup,
                 "В темные времена, когда магия и реальность переплетаются," +
                 " существует одна загадка, которая не давала покоя самым лучшим детективам. " +
                 "Это история об убийстве, которое никто не смог раскрыть — о таинственной туше и том, кто её убил." +
                 " Легенда гласит, что разгадка этой тайны скрыта в трех путях, каждый из которых ведет к ключевым улик: " +
                 "«Убийца», «Водопад» и «Космос». Но будьте осторожны: путь к истине нелегок," +
                 " а самой главной угрозой является не только убийца, но и те, кто пытаются скрыть правду.");
-            await SendDragonChoices(botClient, chatId);
+
         }
 
         async Task HandleStage2(ITelegramBotClient botClient, long chatId, string messageText)
         {
-            if (messageText.ToLower() == "победить дракона")
+            if (messageText.ToLower() == "Выбрать тропу \"Космос\"")
             {
-                _userStates[chatId] = "end";
+                _userStates[chatId] = "stage3";
                 await botClient.SendMessage(chatId, "Вы победили дракона и вышли из леса! Поздравляю!");
             }
             else if (messageText.ToLower() == "использовать артефакт")
             {
-                _userStates[chatId] = "end";
+                _userStates[chatId] = "stage3";
                 await botClient.SendMessage(chatId, "Вы использовали артефакт и нашли выход из леса! Поздравляю!");
             }
             else
@@ -97,7 +109,7 @@ namespace ChyaTusha
                 ResizeKeyboard = true
             };
 
-            await _sender.TrySendPhoto(chatId, "StartGame.png");
+            await _sender.TrySendPhoto(chatId, "StartGame.png", replyMarkup);
         }
 
         async Task SendDragonChoices(ITelegramBotClient botClient, long chatId)

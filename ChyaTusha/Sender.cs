@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 using static ChyaTusha.ExternalEnvironmentHandler;
 
 namespace ChyaTusha
@@ -16,7 +17,7 @@ namespace ChyaTusha
         {
             _botClient = botClient;
         }
-        public async Task<bool> TrySendPhoto(long chatId, string name, string caption = "")
+        public async Task<bool> TrySendPhoto(long chatId, string name, IReplyMarkup replyMarkup, string caption = "")
         {
             try
             {
@@ -29,7 +30,8 @@ namespace ChyaTusha
                     await _botClient.SendPhoto(
                         chatId: chatId,
                         photo: input,
-                        caption: caption
+                        caption: caption,
+                        replyMarkup: replyMarkup
                     );
                 }
                 return true;
