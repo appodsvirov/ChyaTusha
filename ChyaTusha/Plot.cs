@@ -9,6 +9,7 @@ namespace ChyaTusha
 {
     public class Plot
     {
+        //public bool 
         public int BathroomState = 0;
         public int WaterfallState = 0;
         public Bathroom Bathroom { get; set; } = new();
