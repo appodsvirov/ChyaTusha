@@ -21,11 +21,13 @@ if (!System.IO.File.Exists(pathToKey))
 }
 
 var key = System.IO.File.ReadAllText(pathToKey);
+
 try
 {
     var botClient = new TelegramBotClient(key);
     var userStates = new Dictionary<long, string>();
-    var handler = new UpdateHandler(userStates, botClient);
+    var userPlots = new Dictionary<long, Plot>();
+    var handler = new UpdateHandler(userStates, userPlots, botClient);
 
     botClient.StartReceiving(
         updateHandler: handler.HandleUpdateAsync,
@@ -35,7 +37,7 @@ try
     Console.WriteLine("Бот запущен. Нажмите любую клавишу для выхода...");
     Console.ReadKey();
 }
-catch(ArgumentException e)
+catch (ArgumentException e)
 {
     Console.WriteLine(e.Message);
     System.IO.File.Delete(pathToKey);

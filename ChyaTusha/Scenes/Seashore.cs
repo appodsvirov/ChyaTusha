@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace ChyaTusha.Scenes
 {
-    public class Seashore: Scene
+    public class Waterfall: Scene
     {
-        public Seashore()
+        public Waterfall()
         {
             _pics = new List<string>
             {
-                "Seashore_1.jpg",
-                "Seashore_2.jpg",
-                "Seashore_3.jpg",
-                "Seashore_4.jpg",
-                "Seashore_5.jpg",
+                "Waterfall_1.jpg",
+                "Waterfall_2.jpg",
+                "Waterfall_3.jpg",
+                "Waterfall_4.jpg",
+                "Waterfall_5.jpg",
             };
         }
     }

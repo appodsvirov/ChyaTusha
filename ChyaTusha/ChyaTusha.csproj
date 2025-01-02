@@ -14,10 +14,6 @@
     <None Remove="Resources\Bathroom_4.jpg" />
     <None Remove="Resources\Bathroom_5.jpg" />
     <None Remove="Resources\forkInTheRoad.png" />
-    <None Remove="Resources\Seashore_1.jpg" />
-    <None Remove="Resources\Seashore_2.jpg" />
-    <None Remove="Resources\Seashore_3.jpg" />
-    <None Remove="Resources\Seashore_4.jpg" />
     <None Remove="Resources\StartGame.png" />
   </ItemGroup>
 
@@ -44,16 +40,16 @@
     <Resource Include="Resources\forkInTheRoad.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Seashore_1.jpg">
+    <Resource Include="Resources\Waterfall_1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Seashore_2.jpg">
+    <Resource Include="Resources\Waterfall_2.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Seashore_3.jpg">
+    <Resource Include="Resources\Waterfall_3.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Seashore_4.jpg">
+    <Resource Include="Resources\Waterfall_4.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\StartGame.png">

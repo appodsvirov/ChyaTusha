@@ -12,10 +12,12 @@ namespace ChyaTusha
     public class UpdateHandler
     {
         private Dictionary<long, string> _userStates;
+        private Dictionary<long, Plot> _userPlots;
         private Sender _sender;
-        public UpdateHandler(Dictionary<long, string> userStates, ITelegramBotClient botClient)
+        public UpdateHandler(Dictionary<long, string> userStates, Dictionary<long, Plot> userPlots, ITelegramBotClient botClient)
         {
             _userStates = userStates;
+            _userPlots = userPlots;
             _sender = new(botClient);
         }
 
@@ -25,7 +27,7 @@ namespace ChyaTusha
             if (update.Message is not { } message) return;
 
             long chatId = message.Chat.Id;
-            string userState = _userStates.ContainsKey(chatId) ? _userStates[chatId] : "start";
+            _userPlots[chatId] = new();
 
             if (message.Text != null)
             {
@@ -36,19 +38,28 @@ namespace ChyaTusha
                 }
                 else
                 {
-                    switch (userState)
-                    {
-                        case "StartGame":
-                            await HandleStage1(botClient, chatId, message.Text);
-                            break;
-                        case "Fork":
-                            await HandleStage2(botClient, chatId, message.Text);
-                            break;
-                        default:
-                            await botClient.SendMessage(chatId, "Я не понял ваш выбор. Напишите /start, чтобы начать.");
-                            break;
-                    }
+                    Handle(botClient, chatId, message.Text);
                 }
+            }
+        }
+
+        public async void Handle(ITelegramBotClient botClient, long chatId, string message)
+        {
+            string userState = _userStates.ContainsKey(chatId) ? _userStates[chatId] : "start";
+            switch (userState)
+            {
+                case "StartGame":
+                    await HandleStage1(botClient, chatId, message);
+                    break;
+                case "Fork":
+                    await HandleStage2(botClient, chatId, message);
+                    break;
+                case "Водопад":
+                    await HandleStage3(botClient, chatId, message);
+                    break;
+                default:
+                    await botClient.SendMessage(chatId, "Я не понял ваш выбор. Напишите /start, чтобы начать.");
+                    break;
             }
         }
 
@@ -98,18 +109,63 @@ namespace ChyaTusha
         {
             if (messageText == "Лес")
             {
-                _userStates[chatId] = "stage3";
-                await botClient.SendMessage(chatId, "Вы победили дракона и вышли из леса! Поздравляю!");
+                _userStates[chatId] = "Лес";
             }
             else if (messageText == "Пещера")
             {
-                _userStates[chatId] = "stage3";
-                await botClient.SendMessage(chatId, "Вы использовали артефакт и нашли выход из леса! Поздравляю!");
+                _userStates[chatId] = "Пещера";
             }
             else if (messageText == "Водопад")
             {
-                await botClient.SendMessage(chatId, "Пожалуйста, выберите: 'победить дракона' или 'использовать артефакт'.");
+                _userStates[chatId] = "Водопад";
             }
+            Handle(botClient, chatId, messageText);
+        }
+
+
+        async Task HandleStage3(ITelegramBotClient botClient, long chatId, string messageText)
+        {
+            var plot = _userPlots[chatId];
+            var replyMarkup = new ReplyKeyboardMarkup(
+                    new[]
+                    {
+                    new KeyboardButton("Высушить 💦"),
+                    new KeyboardButton("Подарок 💧"),
+                    new KeyboardButton("Улика 💧"),
+                    })
+            {
+                ResizeKeyboard = true
+            };
+
+            if (messageText == "Водопад")
+            {
+                plot.WaterfallState = 0;
+            }
+            else if(messageText == "Высушить 💦")
+            {
+                plot.WaterfallState = 1;
+            }
+            else if (messageText == "Подарок 💧")
+            {
+                plot.WaterfallState = 2;
+            }
+            else if (messageText == "Улика 💧")
+            {
+                plot.WaterfallState = 3;
+            }
+
+            await _sender.TrySendPhoto(chatId,
+                    plot.Waterfall[plot.WaterfallState],
+                    replyMarkup,
+                    "Водопад грохочет, скрывая улики за плотной завесой воды. " +
+                    "Легенды гласят, что именно здесь были оставлены важнейшие подсказки, " +
+                    "способные пролить свет на преступление. " +
+                    "Но этот путь полон опасностей — поток водопада силён, и один неверный шаг может стать последним. " +
+                    "Если осмелишься прыгнуть в водопад в поисках правды," +
+                    " будь готов — глубины могут оказаться смертельно опасными. " +
+                    "Утонуть здесь проще, чем найти истину"
+                    );
+
         }
     }
 }
