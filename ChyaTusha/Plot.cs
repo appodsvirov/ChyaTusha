@@ -9,17 +9,26 @@ namespace ChyaTusha
 {
     public class Plot
     {
-        //public bool 
+        public bool HasBlanket { get; set; }
+        public bool HasSwaddle { get; set; }
+        public bool HasBags { get; set; }
+
         public int BathroomState = 0;
         public int WaterfallState = 0;
+        public int CaveState = 0;
+        public int ShitForestState = 0;
         public Bathroom Bathroom { get; set; } = new();
         public Waterfall Waterfall { get; set; } = new();
+        public Cave Cave { get; set; } = new();
+        public ShitForest ShitForest { get; set; } = new();
 
 
         public void Setup()
         {
             BathroomState = 0;
             WaterfallState = 0;
+            CaveState = 0;
+            ShitForestState = 0;
         }
     }
 }

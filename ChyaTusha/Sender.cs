@@ -17,7 +17,7 @@ namespace ChyaTusha
         {
             _botClient = botClient;
         }
-        public async Task<bool> TrySendPhoto(long chatId, string name, IReplyMarkup replyMarkup, string caption = "")
+        public async Task<bool> TrySendPhoto(long chatId, string name, string caption, params string[] markupTexts)
         {
             try
             {
@@ -25,13 +25,14 @@ namespace ChyaTusha
                     , FileMode.Open))
                 {
                     var input = new InputFileStream(stream);
+                    var builder = new MarkupBuilder().AddRange(markupTexts);
 
                     // Отправка фото
                     await _botClient.SendPhoto(
                         chatId: chatId,
                         photo: input,
                         caption: caption,
-                        replyMarkup: replyMarkup
+                        replyMarkup: builder.Build()
                     );
                 }
                 return true;

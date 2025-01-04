@@ -9,7 +9,7 @@ using Telegram.Bot;
 
 namespace ChyaTusha
 {
-    public class UpdateHandler
+    public partial class UpdateHandler
     {
         private Dictionary<long, string> _userStates;
         private Dictionary<long, Plot> _userPlots;
@@ -49,10 +49,10 @@ namespace ChyaTusha
             switch (userState)
             {
                 case "StartGame":
-                    await HandleStage1(botClient, chatId, message);
+                    await StartGameHandle(botClient, chatId, message);
                     break;
                 case "Fork":
-                    await HandleStage2(botClient, chatId, message);
+                    await ForkHandle(botClient, chatId, message);
                     break;
                 case "Водопад":
                     await HandleStage3(botClient, chatId, message);
@@ -64,48 +64,28 @@ namespace ChyaTusha
         }
 
 
-        async Task StartGame(ITelegramBotClient botClient, long chatId)
-        {
-            _userStates[chatId] = "StartGame";
-            var replyMarkup = new ReplyKeyboardMarkup(
-                new[]
-                {
-                    new KeyboardButton("Да начнется игра!😈")
-                })
-            {
-                ResizeKeyboard = true
-            };
 
-            await _sender.TrySendPhoto(chatId, "StartGame.png", replyMarkup);
-        }
 
-        async Task HandleStage1(ITelegramBotClient botClient, long chatId, string messageText)
+        async Task StartGameHandle(ITelegramBotClient botClient, long chatId, string messageText)
         {
             _userStates[chatId] = "Fork";
-            var replyMarkup = new ReplyKeyboardMarkup(
-                new[]
-                {
-                    new KeyboardButton("Лес"),
-                    new KeyboardButton("Пещера"),
-                    new KeyboardButton("Водопад"),
-                })
-            {
-                ResizeKeyboard = true
-            };
 
-            await _sender.TrySendPhoto(chatId,
-                "forkInTheRoad.png",
-                replyMarkup,
-                "В темные времена, когда магия и реальность переплетаются," +
+            var legendText = "В темные времена, когда магия и реальность переплетаются," +
                 " существовала одна загадка, которая не давала покоя самым лучшим детективам. " +
                 "Это история об убийстве, которое никто не смог раскрыть — о таинственной туше и том, кто её убил." +
                 " Легенда гласит, что разгадка этой тайны скрыта в трех путях, каждый из которых ведет к ключевым уликам: " +
                 "«Лес», «Водопад» и «Пещера». Но будьте осторожны: путь к истине нелегок," +
-                " а самой главной угрозой является не только убийца, но и те, кто пытаются скрыть правду.");
+                " а самой главной угрозой является не только убийца, но и те, кто пытаются скрыть правду.";
+
+
+            await _sender.TrySendPhoto(chatId,
+                "Fork.png",
+                legendText,
+                "Лес", "Пещера", "Водопад");
 
         }
 
-        async Task HandleStage2(ITelegramBotClient botClient, long chatId, string messageText)
+        async Task ForkHandle(ITelegramBotClient botClient, long chatId, string messageText)
         {
             if (messageText == "Лес")
             {
@@ -182,8 +162,10 @@ namespace ChyaTusha
 
             await _sender.TrySendPhoto(chatId,
                     plot.Waterfall[plot.WaterfallState],
-                    replyMarkup,
-                    message
+                    message,
+                    "Высушить 💦",
+                    "Подарок 💧",
+                    "Улика 💧"
                     );
 
         }
