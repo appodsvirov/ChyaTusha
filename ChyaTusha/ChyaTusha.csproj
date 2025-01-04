@@ -13,7 +13,26 @@
     <None Remove="Resources\Bathroom_3.jpg" />
     <None Remove="Resources\Bathroom_4.jpg" />
     <None Remove="Resources\Bathroom_5.jpg" />
+    <None Remove="Resources\Cave_1.jpg" />
+    <None Remove="Resources\Cave_2.jpg" />
+    <None Remove="Resources\Cave_3.jpg" />
+    <None Remove="Resources\Cave_4.jpg" />
+    <None Remove="Resources\Cave_5.jpg" />
+    <None Remove="Resources\Cave_6.jpg" />
+    <None Remove="Resources\Fork.jpg" />
     <None Remove="Resources\forkInTheRoad.png" />
+    <None Remove="Resources\Present.jpg" />
+    <None Remove="Resources\ShitForest_1.jpg" />
+    <None Remove="Resources\ShitForest_10.jpg" />
+    <None Remove="Resources\ShitForest_2.jpg" />
+    <None Remove="Resources\ShitForest_3.jpg" />
+    <None Remove="Resources\ShitForest_4.jpg" />
+    <None Remove="Resources\ShitForest_5.jpg" />
+    <None Remove="Resources\ShitForest_6.jpg" />
+    <None Remove="Resources\ShitForest_7.jpg" />
+    <None Remove="Resources\ShitForest_8.jpg" />
+    <None Remove="Resources\ShitForest_9.jpg" />
+    <None Remove="Resources\Start.jpg" />
     <None Remove="Resources\StartGame.png" />
   </ItemGroup>
 
@@ -37,7 +56,64 @@
     <Resource Include="Resources\Bathroom_5.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Cave_1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cave_2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cave_3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cave_4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cave_5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cave_6.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fork.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\forkInTheRoad.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Present.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_10.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_6.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_7.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_8.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ShitForest_9.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Start.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Waterfall_1.jpg">
