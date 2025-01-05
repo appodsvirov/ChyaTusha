@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot;
 
 namespace ChyaTusha
 {
     public partial class UpdateHandler
     {
-        async Task BathroomHandle(ITelegramBotClient botClient, long chatId, string messageText)
+        async Task CaveHandle(ITelegramBotClient botClient, long chatId, string messageText)
         {
             var plot = _userPlots[chatId];
 
@@ -24,39 +24,30 @@ namespace ChyaTusha
                 await StartGameHandle(botClient, chatId, messageText);
                 return;
             }
-            else if (messageText == "Срачельник 🚽")
+            else if (messageText == "Пещера")
             {
-                plot.BathroomState = 0;
-                builder
-                    .Add("Устроить помои")
-                    .Add("Подарок 🎁");
-                sendMessage = "";
-            }
-            else if (messageText == "Подарок 🎁")
-            {
-                plot.BathroomState = 1;
-            }
-            else if (messageText == "Устроить помои")
-            {
-                plot.BathroomState = 2;
+                plot.CaveState = 0;
                 builder
                     .Add("Подарок 🎁");
                 sendMessage = "";
             }
             else if (messageText == "Подарок 🎁")
             {
-                plot.BathroomState = 3;
+                plot.CaveState = 1;
                 builder
-                    .Add("Улика 🛏️");
+                    .Add("Улика 💧");
                 sendMessage = "";
             }
-            else if (messageText == "Улика 🛏️")
+            else if (messageText == "Улика 💧")
             {
-                plot.BathroomState = 4;
+                plot.CaveState = 2;
+                plot.HasSwaddle = true;
+
+                sendMessage = "";
             }
 
             await _sender.TrySendPhoto(chatId,
-                    plot.Bathroom[plot.BathroomState],
+                    plot.Cave[plot.CaveState],
                     sendMessage,
                     builder);
         }

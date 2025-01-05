@@ -64,6 +64,9 @@ namespace ChyaTusha
                 case "Водопад":
                     await WaterfallHandle(botClient, chatId, message);
                     break;
+                case "Пещера":
+                    await CaveHandle(botClient, chatId, message);
+                    break;
                 default:
                     await botClient.SendMessage(chatId, "Я не понял ваш выбор. Напишите /start, чтобы начать.");
                     break;
