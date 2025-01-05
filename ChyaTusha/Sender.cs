@@ -19,15 +19,23 @@ namespace ChyaTusha
         }
         public async Task<bool> TrySendPhoto(long chatId, string name, string caption, params string[] markupTexts)
         {
+            var builder = new MarkupBuilder().AddRange(markupTexts);
+            return await InternalSendPhoto(chatId, name, caption, builder);
+        }
+
+        public async Task<bool> TrySendPhoto(long chatId, string name, string caption, MarkupBuilder builder)
+        {
+            return await InternalSendPhoto(chatId, name, caption, builder);
+        }
+
+        private async Task<bool> InternalSendPhoto(long chatId, string name, string caption, MarkupBuilder builder)
+        {
             try
             {
-                using (var stream = new FileStream(Path.Combine(GetResourceFolderPath(), name)
-                    , FileMode.Open))
+                using (var stream = new FileStream(Path.Combine(GetResourceFolderPath(), name), FileMode.Open))
                 {
                     var input = new InputFileStream(stream);
-                    var builder = new MarkupBuilder().AddRange(markupTexts);
 
-                    // Отправка фото
                     await _botClient.SendPhoto(
                         chatId: chatId,
                         photo: input,
@@ -39,9 +47,10 @@ namespace ChyaTusha
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Ошибка в отправке фото {name}:\n{ e.Message}\n");
+                Console.WriteLine($"Ошибка в отправке фото {name}:\n{e.Message}\n");
                 return false;
             }
         }
+
     }
 }

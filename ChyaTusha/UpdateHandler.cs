@@ -54,6 +54,12 @@ namespace ChyaTusha
                     break;
                 case "Fork":
                     await ForkHandle(botClient, chatId, message);
+                    break;               
+                case "Лес":
+                    await ForestHandle(botClient, chatId, message);
+                    break;                
+                case "Bathroom":
+                    await BathroomHandle(botClient, chatId, message);
                     break;
                 case "Водопад":
                     await WaterfallHandle(botClient, chatId, message);
