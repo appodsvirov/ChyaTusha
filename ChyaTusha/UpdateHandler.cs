@@ -27,23 +27,24 @@ namespace ChyaTusha
             if (update.Message is not { } message) return;
 
             long chatId = message.Chat.Id;
-            _userPlots[chatId] = new();
+            var plot = _userPlots.TryGetValue(chatId, out var existingPlot)? existingPlot : (_userPlots[chatId] = new());
 
             if (message.Text != null)
             {
                 if (message.Text.ToLower() == "/start")
                 {
                     // Начать квест
+                    plot.Setup();
                     await StartGame(botClient, chatId);
                 }
                 else
                 {
-                    Handle(botClient, chatId, message.Text);
+                    await Handle(botClient, chatId, message.Text);
                 }
             }
         }
 
-        public async void Handle(ITelegramBotClient botClient, long chatId, string message)
+        public async Task Handle(ITelegramBotClient botClient, long chatId, string message)
         {
             string userState = _userStates.ContainsKey(chatId) ? _userStates[chatId] : "start";
             switch (userState)
@@ -55,7 +56,7 @@ namespace ChyaTusha
                     await ForkHandle(botClient, chatId, message);
                     break;
                 case "Водопад":
-                    await HandleStage3(botClient, chatId, message);
+                    await WaterfallHandle(botClient, chatId, message);
                     break;
                 default:
                     await botClient.SendMessage(chatId, "Я не понял ваш выбор. Напишите /start, чтобы начать.");
@@ -69,20 +70,28 @@ namespace ChyaTusha
         async Task StartGameHandle(ITelegramBotClient botClient, long chatId, string messageText)
         {
             _userStates[chatId] = "Fork";
+            var plot = _userPlots[chatId];
 
-            var legendText = "В темные времена, когда магия и реальность переплетаются," +
+
+            var firstText = "В темные времена, когда магия и реальность переплетаются," +
                 " существовала одна загадка, которая не давала покоя самым лучшим детективам. " +
                 "Это история об убийстве, которое никто не смог раскрыть — о таинственной туше и том, кто её убил." +
                 " Легенда гласит, что разгадка этой тайны скрыта в трех путях, каждый из которых ведет к ключевым уликам: " +
                 "«Лес», «Водопад» и «Пещера». Но будьте осторожны: путь к истине нелегок," +
                 " а самой главной угрозой является не только убийца, но и те, кто пытаются скрыть правду.";
 
+            var secondText = "Вы стоите на краю неизвестности. Перед вами простираются три пути: лес, водопад и пещера." +
+                "\nКаждый из них ведет к разгадке, но у каждого своя цена. " +
+                "Лес скрывает следы, водопад уносит улики, а в пещере царит тьма, " +
+                "в которой легко потеряться. Выбор — за вами.";
 
             await _sender.TrySendPhoto(chatId,
-                "Fork.png",
-                legendText,
+                "Fork.jpg",
+                plot.IsIntroComplete? secondText : firstText,
                 "Лес", "Пещера", "Водопад");
 
+
+            plot.IsIntroComplete = true;
         }
 
         async Task ForkHandle(ITelegramBotClient botClient, long chatId, string messageText)
@@ -99,32 +108,27 @@ namespace ChyaTusha
             {
                 _userStates[chatId] = "Водопад";
             }
-            Handle(botClient, chatId, messageText);
+            await Handle(botClient, chatId, messageText);
         }
 
 
-        async Task HandleStage3(ITelegramBotClient botClient, long chatId, string messageText)
+        async Task WaterfallHandle(ITelegramBotClient botClient, long chatId, string messageText)
         {
             var plot = _userPlots[chatId];
-            var replyMarkup = new ReplyKeyboardMarkup(
-                    new[]
-                    {
-                    new KeyboardButton("Высушить 💦"),
-                    new KeyboardButton("Подарок 💧"),
-                    new KeyboardButton("Улика 💧"),
-                    })
-            {
-                ResizeKeyboard = true
-            };
 
             List<KeyboardButton> buttons = new();
 
-            string message = "";
+            string sendMessage = "";
 
-            if (messageText == "Водопад")
+            if(messageText == "🏠")
+            {
+                await StartGameHandle(botClient, chatId, messageText);
+                return;
+            }
+            else if (messageText == "Водопад")
             {
                 plot.WaterfallState = 0;
-                message = "Водопад грохочет, скрывая улики за плотной завесой воды. " +
+                sendMessage = "Водопад грохочет, скрывая улики за плотной завесой воды. " +
                     "Легенды гласят, что именно здесь были оставлены важнейшие подсказки, " +
                     "способные пролить свет на преступление. " +
                     "Но этот путь полон опасностей — поток водопада силён, и один неверный шаг может стать последним. " +
@@ -133,14 +137,14 @@ namespace ChyaTusha
                     "Утонуть здесь проще, чем найти истину";
 
             }
-            else if(messageText == "Высушить 💦")
+            else if(messageText == "Высушить 💨")
             {
                 plot.WaterfallState = 1;
-                message = "Вы стоите на краю водопада, вглядываясь в поток, " +
+                sendMessage = "Вы стоите на краю водопада, вглядываясь в поток, " +
                     "скрывающий тайны прошлого. " +
                     "Шум воды заглушает мысли, но внутри растет ощущение, " +
                     "что ключ к разгадке — прямо здесь, на самом дне." +
-                    "\nВы решаетесь. Снимаете с пояса древний артефакт — Пеленка бесконечности\n" +
+                    "\nВы решаетесь. Снимаете с пояса древний артефакт — Пеленку бесконечности\n" +
                     "Легкое движение, и водопад полностью впитываются в пеленку \n" +
                     "Поток воды медленно исчезает, словно подчиняясь вашему желанию. " +
                     "Вскоре на месте бурлящего водопада остается лишь спокойная, сухая расщелина." +
@@ -151,7 +155,7 @@ namespace ChyaTusha
                     "\n«Тому, кто осмелится дойти до конца. Открой, когда почувствуешь, что пора.»" +
                     "\nПодарок теплый на ощупь, и от него исходит слабое свечение. Вам предстоит решить, открыть его сейчас… или позже.";
             }
-            else if (messageText == "Подарок 💧")
+            else if (messageText == "Подарок 🎁")
             {
                 plot.WaterfallState = 2;
             }
@@ -162,9 +166,10 @@ namespace ChyaTusha
 
             await _sender.TrySendPhoto(chatId,
                     plot.Waterfall[plot.WaterfallState],
-                    message,
-                    "Высушить 💦",
-                    "Подарок 💧",
+                    sendMessage,
+                    "🏠",
+                    "Высушить 💨",
+                    "Подарок 🎁",
                     "Улика 💧"
                     );
 

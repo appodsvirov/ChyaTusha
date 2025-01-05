@@ -9,9 +9,10 @@ namespace ChyaTusha
 {
     public class Plot
     {
-        public bool HasBlanket { get; set; }
-        public bool HasSwaddle { get; set; }
-        public bool HasBags { get; set; }
+        public bool IsIntroComplete { get; set; } = false;
+        public bool HasBlanket { get; set; } = false;
+        public bool HasSwaddle { get; set; } = false;
+        public bool HasBags { get; set; } = false;
 
         public int BathroomState = 0;
         public int WaterfallState = 0;
@@ -29,6 +30,11 @@ namespace ChyaTusha
             WaterfallState = 0;
             CaveState = 0;
             ShitForestState = 0;
+
+            IsIntroComplete = false;
+            HasBlanket = false;
+            HasSwaddle = false;
+            HasBags = false;
         }
     }
 }

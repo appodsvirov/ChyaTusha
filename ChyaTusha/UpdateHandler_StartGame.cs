@@ -14,7 +14,10 @@ namespace ChyaTusha
         {
             _userStates[chatId] = "StartGame";
 
-            await _sender.TrySendPhoto(chatId, "StartGame.png",
+            await _sender.TrySendPhoto(
+                chatId: chatId, 
+                name: "StartGame.png", 
+                caption: "Поиграем?",
                 "Да начнется игра!😈");
         }
     }

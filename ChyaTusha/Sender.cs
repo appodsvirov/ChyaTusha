@@ -37,8 +37,9 @@ namespace ChyaTusha
                 }
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine($"Ошибка в отправке фото {name}:\n{ e.Message}\n");
                 return false;
             }
         }
