@@ -13,9 +13,6 @@ namespace ChyaTusha
         async Task BathroomHandle(ITelegramBotClient botClient, long chatId, string messageText)
         {
             var plot = _userPlots[chatId];
-
-            List<KeyboardButton> buttons = new();
-
             string sendMessage = "";
             MarkupBuilder builder = new MarkupBuilder().Add("🏠");
 
@@ -26,15 +23,17 @@ namespace ChyaTusha
             }
             else if (messageText == "Срачельник 🚽")
             {
-                plot.BathroomState = 0;
-                builder
-                    .Add("Устроить помои")
-                    .Add("Подарок 🎁");
+                if (plot.HasWater)
+                {
+                    builder.Add("Устроить помои");
+                }
+                builder.Add("Подарок 🎁");
                 sendMessage = "";
             }
-            else if (messageText == "Подарок 🎁")
+            else if (messageText == "Подарок 🎁" && !plot.HasWater)
             {
                 plot.BathroomState = 1;
+                plot.IsKilled = true;
             }
             else if (messageText == "Устроить помои")
             {
@@ -43,7 +42,7 @@ namespace ChyaTusha
                     .Add("Подарок 🎁");
                 sendMessage = "";
             }
-            else if (messageText == "Подарок 🎁")
+            else if (messageText == "Подарок 🎁" && plot.HasWater)
             {
                 plot.BathroomState = 3;
                 builder
@@ -53,12 +52,22 @@ namespace ChyaTusha
             else if (messageText == "Улика 🛏️")
             {
                 plot.BathroomState = 4;
+                plot.CaveState++;
+            }
+            else
+            {
+                _userStates[chatId] = null;
             }
 
             await _sender.TrySendPhoto(chatId,
                     plot.Bathroom[plot.BathroomState],
                     sendMessage,
                     builder);
+
+            if (plot.BathroomState == 1)
+            {
+                plot.BathroomState = 0;
+            }
         }
     }
 }

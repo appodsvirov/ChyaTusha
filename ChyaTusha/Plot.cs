@@ -13,6 +13,9 @@ namespace ChyaTusha
         public bool HasBlanket { get; set; } = false;
         public bool HasSwaddle { get; set; } = false;
         public bool HasBags { get; set; } = false;
+        public bool IsKilled { get; set; } = false;
+        public bool HasWater { get; set; } = false;
+        public bool HasShit { get; set; } = false;
 
         public int BathroomState = 0;
         public int WaterfallState = 0;

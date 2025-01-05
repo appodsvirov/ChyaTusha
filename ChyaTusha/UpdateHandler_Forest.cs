@@ -19,14 +19,19 @@ namespace ChyaTusha
             string sendMessage = "";
             MarkupBuilder builder = new MarkupBuilder().Add("🏠");
 
-            if (messageText == "🏠")
+            if (plot.HasShit && plot.ShitForestState == 9)
+            {
+                _userStates[chatId] = "Bathroom";
+                await Handle(botClient, chatId, "Срачельник 🚽");
+                return;
+            }
+            else if (messageText == "🏠")
             {
                 await StartGameHandle(botClient, chatId, messageText);
                 return;
             }
             else if (messageText == "Лес")
             {
-                plot.ShitForestState = 0;
                 builder
                     .Add("←")
                     .Add("↓");
@@ -90,15 +95,25 @@ namespace ChyaTusha
             else if (plot.ShitForestState == 6 && messageText == "←")
             {
                 plot.ShitForestState = 7;
-                builder
-                    .Add("Улика 💩")
-                    .Add("Срачельник 🚽");
-                sendMessage = "8";
+
+                if (plot.HasBags)
+                {
+                    builder
+                        .Add("Улика 💩")
+                        .Add("Срачельник 🚽");
+                    sendMessage = "8";
+                }
+                else
+                {
+                    sendMessage = "";
+                }
             }
 
             else if (plot.ShitForestState == 7 && messageText == "Улика 💩")
             {
                 plot.ShitForestState = 8;
+                plot.CaveState++;
+                plot.HasShit = true;
                 builder
                     .Add("Подарок 🎁")
                     .Add("Срачельник 🚽");
@@ -111,7 +126,7 @@ namespace ChyaTusha
                     .Add("Срачельник 🚽");
                 sendMessage = "10";
             }
-            else if(messageText == "Срачельник 🚽")
+            else if (messageText == "Срачельник 🚽")
             {
                 _userStates[chatId] = "Bathroom";
                 await Handle(botClient, chatId, messageText);
@@ -119,11 +134,9 @@ namespace ChyaTusha
             }
             else
             {
-                await StartGameHandle(botClient, chatId, messageText);
+                await ForestHandle(botClient, chatId, "Лес");
                 return;
             }
-
-
 
             await _sender.TrySendPhoto(chatId,
                     plot.ShitForest[plot.ShitForestState],

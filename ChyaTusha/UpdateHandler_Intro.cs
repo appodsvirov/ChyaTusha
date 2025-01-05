@@ -10,7 +10,7 @@ namespace ChyaTusha
 {
     public partial class UpdateHandler
     {
-        async Task StartGame(ITelegramBotClient botClient, long chatId)
+        async Task IntroHandle(ITelegramBotClient botClient, long chatId)
         {
             _userStates[chatId] = "StartGame";
 

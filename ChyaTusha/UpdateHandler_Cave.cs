@@ -24,9 +24,8 @@ namespace ChyaTusha
                 await StartGameHandle(botClient, chatId, messageText);
                 return;
             }
-            else if (messageText == "Пещера")
+            else if (messageText == "Пещера" && plot.CaveState == 0)
             {
-                plot.CaveState = 0;
                 builder
                     .Add("Подарок 🎁");
                 sendMessage = "";
@@ -44,6 +43,10 @@ namespace ChyaTusha
                 plot.HasSwaddle = true;
 
                 sendMessage = "";
+            }
+            else
+            {
+                _userStates[chatId] = null;
             }
 
             await _sender.TrySendPhoto(chatId,
