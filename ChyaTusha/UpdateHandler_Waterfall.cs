@@ -15,7 +15,7 @@ namespace ChyaTusha
             var plot = _userPlots[chatId];
 
             List<KeyboardButton> buttons = new();
-            MarkupBuilder builder = new MarkupBuilder().Add("🏠");
+            MarkupBuilder builder = new MarkupBuilder();
 
             string sendMessage = "";
 
@@ -26,12 +26,12 @@ namespace ChyaTusha
             }
             else if (messageText == "Водопад")
             {
-                plot.WaterfallState = 0;
-
+                builder.Add("🏠");
                 if (plot.HasSwaddle)
                 {
                     builder.Add("Высушить 💨");
                 }
+                
 
                 sendMessage = "Водопад грохочет, скрывая улики за плотной завесой воды. " +
                     "Легенды гласят, что именно здесь были оставлены важнейшие подсказки, " +
@@ -72,6 +72,7 @@ namespace ChyaTusha
                 plot.WaterfallState = 3;
                 plot.HasBags = true;
                 plot.CaveState++;
+                builder.Add("🏠");
             }
             else
             {

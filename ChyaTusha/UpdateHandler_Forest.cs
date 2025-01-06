@@ -17,7 +17,7 @@ namespace ChyaTusha
             List<KeyboardButton> buttons = new();
 
             string sendMessage = "";
-            MarkupBuilder builder = new MarkupBuilder().Add("🏠");
+            MarkupBuilder builder = new MarkupBuilder();
 
             if (plot.HasShit && plot.ShitForestState == 9)
             {
@@ -32,6 +32,8 @@ namespace ChyaTusha
             }
             else if (messageText == "Лес")
             {
+                plot.ShitForestState = 0;
+                builder.Add("🏠");
                 builder
                     .Add("←")
                     .Add("↓");
@@ -99,8 +101,7 @@ namespace ChyaTusha
                 if (plot.HasBags)
                 {
                     builder
-                        .Add("Улика 💩")
-                        .Add("Срачельник 🚽");
+                        .Add("Улика 💩");
                     sendMessage = "8";
                 }
                 else
@@ -115,8 +116,7 @@ namespace ChyaTusha
                 plot.CaveState++;
                 plot.HasShit = true;
                 builder
-                    .Add("Подарок 🎁")
-                    .Add("Срачельник 🚽");
+                    .Add("Подарок 🎁");
                 sendMessage = "9";
             }
             else if (plot.ShitForestState == 8 && messageText == "Подарок 🎁")
