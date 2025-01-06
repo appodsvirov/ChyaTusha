@@ -27,7 +27,10 @@ namespace ChyaTusha
                 {
                     builder.Add("Устроить помои");
                 }
-                builder.Add("Подарок 🎁");
+                else
+                {
+                    builder.Add("Подарок 🎁");
+                }
                 sendMessage = "";
             }
             else if (messageText == "Подарок 🎁" && !plot.HasWater)
