@@ -11,6 +11,7 @@ namespace ChyaTusha
     {
         public bool IsIntroComplete { get; set; } = false;
         public bool IsIntroCaveComplete { get; set; } = false;
+        public bool IsIntroForestComplete { get; set; } = false;
         public bool HasBlanket { get; set; } = false;
         public bool HasSwaddle { get; set; } = false;
         public bool HasBags { get; set; } = false;

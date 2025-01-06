@@ -17,7 +17,8 @@ namespace ChyaTusha.Scenes
                 "Cave_3.jpg",
                 "Cave_4.jpg",
                 "Cave_5.jpg",
-                "Cave_6.jpg"
+                "Cave_6.jpg",
+                "Present.jpg"
             };
         }
     }
