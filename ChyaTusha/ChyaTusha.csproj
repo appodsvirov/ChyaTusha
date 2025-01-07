@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Audio.ogg" />
     <None Remove="Resources\Bathroom_1.jpg" />
     <None Remove="Resources\Bathroom_2.jpg" />
     <None Remove="Resources\Bathroom_3.jpg" />
@@ -41,6 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Audio.ogg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Bathroom_1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -22,6 +22,12 @@ namespace ChyaTusha
             return this;
         }
 
+        public MarkupBuilder InsertAtStart(string text)
+        {
+            _buttons.Insert(0, text);
+            return this;
+        }
+
         public IReplyMarkup Build()
         {
             _buttons.ToArray();

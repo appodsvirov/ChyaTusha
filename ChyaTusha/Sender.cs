@@ -40,7 +40,8 @@ namespace ChyaTusha
                         chatId: chatId,
                         photo: input,
                         caption: caption,
-                        replyMarkup: builder.Build()
+                        replyMarkup: builder.Build(),
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown
                     );
                 }
                 return true;
@@ -48,6 +49,32 @@ namespace ChyaTusha
             catch (Exception e)
             {
                 Console.WriteLine($"Ошибка в отправке фото {name}:\n{e.Message}\n");
+                return false;
+            }
+        }
+
+
+        public async Task<bool> SendVoiceMessage(long chatId, string fileName, string caption = "")
+        {
+            try
+            {
+                string filePath = Path.Combine(GetResourceFolderPath(), fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var input = new InputFileStream(stream);
+
+                    await _botClient.SendVoice(
+                        chatId: chatId,
+                        voice: input,
+                        caption: caption
+                    );
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ошибка при отправке голосового сообщения {fileName}:\n{e.Message}\n");
                 return false;
             }
         }
