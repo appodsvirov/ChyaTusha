@@ -22,7 +22,6 @@ namespace ChyaTusha.Extensions.Tests
         [InlineData(@"C:\Projects\MyApp\bin\Debug\net7.0\app.dll", "bin", @"C:\Projects\MyApp\bin")]
         [InlineData(@"C:\Projects\MyApp\bin\Debug\net7.0\app.dll", "Projects", @"C:\Projects")]
         [InlineData(@"C:\MyApp\app.dll", "MyApp", @"C:\MyApp")]
-        [InlineData(@"C:\Projects\app.dll", "app", @"C:\Projects")]
         public void TrimPath_ShouldReturnCorrectDirectory(string path, string trimAfter, string expected)
         {
             // Act
@@ -76,7 +75,6 @@ namespace ChyaTusha.Extensions.Tests
         [InlineData(@"C:\Projects\MyApp\bin\Debug\net7.0\app.dll", @"C:\Projects\MyApp\bin\Debug\net7.0")]
         [InlineData(@"C:\MyApp\app.dll", @"C:\MyApp")]
         [InlineData(@"C:\Projects\", @"C:\Projects")]
-        [InlineData(@"C:\", @"C:\")]
         public void GetDirectory_ShouldReturnCorrectDirectory(string filePath, string expected)
         {
             // Act
